@@ -2,9 +2,24 @@
 
 <div align="center">
 <img src="assets/aegis-banner.svg" alt="Aegis banner" width="860">
-</div>
 
-> Stop putting API keys where AI agents can read them.
+<p><strong>Secure credential proxy for AI agents</strong></p>
+
+<p>
+  <a href="https://github.com/yagna-1/aegis/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-orange" alt="License"></a>
+  <a href="https://go.dev/"><img src="https://img.shields.io/badge/go-1.21%2B-00ADD8" alt="Go version"></a>
+  <a href="https://github.com/yagna-1/aegis/stargazers"><img src="https://img.shields.io/github/stars/yagna-1/aegis?color=F2994A" alt="GitHub stars"></a>
+  <a href="https://github.com/yagna-1/aegis/commits/main"><img src="https://img.shields.io/github/last-commit/yagna-1/aegis?color=D97757" alt="Last commit"></a>
+</p>
+
+<p>
+  <a href="#quickstart-5-minutes"><strong>Quickstart</strong></a>
+  ·
+  <a href="#ide-integration-mcp-mode"><strong>MCP Integration</strong></a>
+  ·
+  <a href="#security-model"><strong>Security Model</strong></a>
+</p>
+</div>
 
 A lightweight credential proxy for AI agent workflows. Sits between your agent and any API — injecting real secrets at the network boundary. The agent **never sees credentials**.
 
