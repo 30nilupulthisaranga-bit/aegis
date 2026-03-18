@@ -71,6 +71,33 @@ Agent  ──►  http://localhost:8080  ──►  Aegis  ──►  api.github
 go install github.com/yagna-1/aegis/cmd/aegis@latest
 ```
 
+Or install a prebuilt binary from the `v2.0.0` release:
+
+```bash
+# macOS (Apple Silicon)
+curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-darwin-arm64 -o aegis
+chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
+
+# macOS (Intel)
+curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-darwin-amd64 -o aegis
+chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
+
+# Linux (amd64)
+curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-linux-amd64 -o aegis
+chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
+```
+
+```powershell
+# Windows (PowerShell)
+Invoke-WebRequest -Uri "https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-windows-amd64.exe" -OutFile "aegis.exe"
+```
+
+```bash
+# Optional: verify checksums
+curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/checksums.txt -o checksums.txt
+shasum -a 256 aegis
+```
+
 ### 2. Scaffold your project
 ```bash
 cd ~/projects/my-agent
