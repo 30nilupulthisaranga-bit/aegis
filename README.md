@@ -1,4 +1,4 @@
-# Aegis v2
+# Aegis
 
 <div align="center">
 <img src="assets/aegis-banner.svg" alt="Aegis banner" width="860">
@@ -6,8 +6,13 @@
 <p><strong>Secure credential proxy for AI agents</strong></p>
 
 <p>
+  <img src="https://img.shields.io/badge/version-2.0.0-F2994A" alt="Version">
   <a href="https://github.com/yagna-1/aegis/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-orange" alt="License"></a>
+  <a href="https://github.com/yagna-1/aegis/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-E78661" alt="Code of Conduct"></a>
   <a href="https://go.dev/"><img src="https://img.shields.io/badge/go-1.21%2B-00ADD8" alt="Go version"></a>
+  <a href="https://github.com/yagna-1/aegis/releases"><img src="https://img.shields.io/badge/releases-none-9CA3AF" alt="Releases"></a>
+  <a href="https://github.com/yagna-1/aegis/packages"><img src="https://img.shields.io/badge/packages-none-9CA3AF" alt="Packages"></a>
+  <a href="https://github.com/yagna-1/aegis/tags"><img src="https://img.shields.io/badge/tags-view-D97757" alt="Tags"></a>
   <a href="https://github.com/yagna-1/aegis/stargazers"><img src="https://img.shields.io/github/stars/yagna-1/aegis?color=F2994A" alt="GitHub stars"></a>
   <a href="https://github.com/yagna-1/aegis/commits/main"><img src="https://img.shields.io/github/last-commit/yagna-1/aegis?color=D97757" alt="Last commit"></a>
 </p>
@@ -23,7 +28,20 @@
 
 A lightweight credential proxy for AI agent workflows. Sits between your agent and any API — injecting real secrets at the network boundary. The agent **never sees credentials**.
 
+Single-binary Go runtime with a compact footprint: **~17 MB executable**, **~660 KB repo size**, and **~76 KB internal source**.
+
 Works natively as an MCP server with **Cursor**, **Claude Desktop**, **VS Code / Cline**, and **Windsurf**.
+
+---
+
+## Project
+
+- Version: `2.0.0`
+- License: [Apache 2.0](https://github.com/yagna-1/aegis/blob/main/LICENSE)
+- Code of Conduct: [Contributor Covenant](https://github.com/yagna-1/aegis/blob/main/CODE_OF_CONDUCT.md)
+- Releases: [No releases published](https://github.com/yagna-1/aegis/releases)
+- Packages: [No packages published](https://github.com/yagna-1/aegis/packages)
+- Tags: [View tags](https://github.com/yagna-1/aegis/tags)
 
 ---
 
