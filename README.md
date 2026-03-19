@@ -281,6 +281,60 @@ No data ever leaves your infrastructure.
 
 ---
 
+## Troubleshooting
+
+### MCP fails with `spawn ... ENOENT`
+
+Your MCP `command` path is wrong. Point to an existing binary:
+
+```json
+{
+  "mcpServers": {
+    "aegis": {
+      "command": "/path/to/aegis/dist/aegis-darwin-arm64",
+      "args": ["-mode", "mcp", "-config", "/path/to/project/aegis.yaml"]
+    }
+  }
+}
+```
+
+### `no aegis.yaml found`
+
+Either create one:
+
+```bash
+aegis init -services openai
+```
+
+Or pass an explicit path with `-config /absolute/path/to/aegis.yaml`.
+
+### Infisical: `Project with ID ... not found`
+
+`project_id` must be the actual Infisical **Project ID** (UUID-like), not slug/name.
+Get it from Infisical Project Settings.
+
+### Infisical: `You are not a member of this project`
+
+Assign your Machine Identity to the project and grant read access for the target environment/path.
+
+### Infisical configured but startup fails
+
+This is expected in strict mode. When `infisical:` is configured, Aegis fails closed if Infisical auth/secret load fails.
+`.env` fallback is only used when `infisical:` is not configured.
+
+### Verify setup quickly
+
+```bash
+aegis status
+```
+
+Look for:
+
+- `Status: ✓ connected, ... secrets available`
+- `Credentials ... Authorization: ✓ loaded`
+
+---
+
 ## License
 
 Apache 2.0
