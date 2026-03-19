@@ -173,13 +173,15 @@ MCP mode inherits the IDE's working directory. Open a different project → diff
 
 ---
 
-## Secret priority order
+## Secret source behavior
 
-| Source | How | When to use |
+| Source | How | Behavior |
 |---|---|---|
-| **Infisical** | `infisical:` block in aegis.yaml | Recommended — team-friendly, rotatable |
-| **OS Keychain** | `${keychain:name}` in templates | Good for solo devs, no external service |
-| **.env file** | Auto-discovered in project root | Simple fallback, never commit to git |
+| **Infisical** | `infisical:` block in aegis.yaml | Strict mode: required if configured; startup fails if Infisical cannot load |
+| **OS Keychain** | `${keychain:name}` in templates | Supported for template expansion at request time |
+| **.env file** | Auto-discovered in project root | Used only when `infisical:` is not configured |
+
+For agent-safe setups, use Infisical + keychain and avoid storing API keys in local `.env` files.
 
 ---
 

@@ -163,10 +163,7 @@ func resolveCredential(envKey, keychainKey, source, configValue string, keychain
 		return val, nil
 
 	case "config":
-		if configValue == "" {
-			return "", fmt.Errorf("client_id/client_secret not set in aegis.yaml")
-		}
-		return configValue, nil
+		return "", fmt.Errorf("config source is disabled for security; use keychain or env")
 
 	default:
 
@@ -184,4 +181,3 @@ func resolveCredential(envKey, keychainKey, source, configValue string, keychain
 				"  infisical:\n    client_id_source: env", keychainKey, envKey)
 	}
 }
-

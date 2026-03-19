@@ -72,7 +72,9 @@ func main() {
 		cfg.Port = *port
 	}
 
-	loadSecrets(cfg, res)
+	if err := loadSecrets(cfg, res); err != nil {
+		log.Fatalf("secrets: %v", err)
+	}
 
 	auditLog, err := audit.New(cfg.AuditLog)
 	if err != nil {
@@ -100,7 +102,7 @@ func main() {
 	}
 }
 
-func loadSecrets(cfg *config.Config, res *resolver.Result) {
+func loadSecrets(cfg *config.Config, res *resolver.Result) error {
 
 	if cfg.Infisical != nil {
 		infCfg := infisicalPkg.Config{
@@ -116,17 +118,14 @@ func loadSecrets(cfg *config.Config, res *resolver.Result) {
 
 		client, err := infisicalPkg.New(infCfg, keychain.Get)
 		if err != nil {
-			fmt.Printf("[aegis] ERROR: Infisical connection failed: %v\n\n", err)
-			fmt.Printf("[aegis] Falling back to .env if available...\n")
-		} else {
-			n, err := client.LoadIntoEnv()
-			if err != nil {
-				fmt.Printf("[aegis] WARNING: Infisical load failed: %v\n", err)
-			} else {
-				fmt.Printf("[aegis] loaded %d secrets from Infisical ✓\n", n)
-				return
-			}
+			return fmt.Errorf("infisical connection failed: %w", err)
 		}
+		n, err := client.LoadIntoEnv()
+		if err != nil {
+			return fmt.Errorf("infisical load failed: %w", err)
+		}
+		fmt.Printf("[aegis] loaded %d secrets from Infisical ✓\n", n)
+		return nil
 	}
 
 	if res.EnvPath != "" {
@@ -137,6 +136,7 @@ func loadSecrets(cfg *config.Config, res *resolver.Result) {
 		}
 	}
 
+	return nil
 }
 
 func runInfisical(args []string) {
@@ -420,4 +420,3 @@ Secret priority (highest to lowest):
 
 `)
 }
-
